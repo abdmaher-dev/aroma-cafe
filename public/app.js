@@ -3,7 +3,7 @@
 // ============================================================
 
 // 'http://localhost:3001/api/menu'
-const API_URL = 'http://localhost:3001/api/menu'; // ← رابط الـ API
+const API_URL = 'https://aroma-cafe-production.up.railway.app'; // ← رابط الـ API
 
 // ---- تحميل البيانات من الـ API ----
 async function loadMenu() {
