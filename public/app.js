@@ -132,3 +132,5 @@ function showError() {
 }
 
 document.addEventListener('DOMContentLoaded', loadMenu);
+
+
