@@ -2,7 +2,7 @@
 //  app.js — Aroma Cafe | يقرأ البيانات من API (MongoDB)
 // ============================================================
 
-const API_URL = 'http://localhost:3001/api/menu'; // ← رابط الـ API
+const API_URL = process.env.MONGO_URI; // ← رابط الـ API
 
 // ---- تحميل البيانات من الـ API ----
 async function loadMenu() {
