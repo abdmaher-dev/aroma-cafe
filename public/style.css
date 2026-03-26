@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Alexandria:wght@300;400;500;700;800&display=swap');
+@font-face {
+  font-family: 'Desira';
+  src: url('Desira Regular.ttf') format('truetype'),
+       url('Desira Regular.otf') format('opentype'),
+       url('Desira-Regular.woff2') format('woff2'),
+       url('Desira-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ===== CSS Variables ===== */
+:root {
+  --pink-light: #f0dce8;
+  --pink-mid: #D5B0C2;
+  --pink-dark: #b8809a;
+  --purple: #7a4a62;
+  --purple-light: #a06a82;
+  --gradient-hero: linear-gradient(160deg, #f0dce8 0%, #e07fae 40%, #b8809a 100%);
+  --gradient-tab-active: linear-gradient(90deg, #a06a82, #c0809a);
+  --bg-page: linear-gradient(180deg, #f8eff4 0%, #eddae4 50%, #e0c8d4 100%);
+  --card-shadow: 0 8px 30px rgba(180, 100, 140, 0.12);
+  --card-radius: 18px;
+  --white: #ffffff;
+  --text-dark: #3a1f2d;
+  --text-muted: #9a7282;
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Alexandria', 'Desira', 'Dancing Script', cursive;
+  background: var(--bg-page);
+  min-height: 100vh;
+  direction: rtl;
+  color: var(--text-dark);
+}
+
+/* Arabic text → Alexandria | Latin/decorative text → Desira */
+:lang(ar),
+[dir="rtl"] {
+  font-family: 'Alexandria', sans-serif;
+}
+
+.latin, .brand-name, .decorative {
+  font-family: 'Desira', 'Dancing Script', cursive;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  background: var(--gradient-hero);
+  padding: 48px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 50% 50% / 0 0 40px 40px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(255,255,255,0.18) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.14) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-logo {
+  width: 110px;
+  height: 110px;
+  background: var(--white);
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 32px rgba(180, 100, 140, 0.28);
+  animation: float 3s ease-in-out infinite;
+}
+
+.hero-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.hero-title {
+  font-family: 'Alexandria', 'Desira', 'Dancing Script', cursive;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  color: var(--white);
+  text-shadow: 0 2px 12px rgba(120, 60, 90, 0.3);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  font-family: 'Alexandria', 'Desira', 'Dancing Script', cursive;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  color: rgba(255,255,255,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hero-subtitle::before,
+.hero-subtitle::after {
+  content: '●';
+  font-size: 8px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== Tabs ===== */
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px 10px;
+  /* تمكين السكرول الأفقي على الموبايل */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.tabs {
+  display: flex;
+  background: var(--white);
+  border-radius: 50px;
+  padding: 6px;
+  gap: 4px;
+  box-shadow: 0 4px 20px rgba(180, 100, 140, 0.15);
+  /* لا نضع min-width هنا حتى يتمدد بحسب المحتوى */
+  flex-shrink: 0;
+  width: max-content;
+}
+
+.tab-btn {
+  flex: none; /* لا نريده يتمدد — حجمه بحسب نصه */
+  white-space: nowrap;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Alexandria', 'Desira', 'Dancing Script', cursive;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-muted);
+  background: transparent;
+}
+
+.tab-btn.active {
+  background: var(--gradient-tab-active);
+  color: var(--white);
+  box-shadow: 0 4px 16px rgba(180, 100, 140, 0.4);
+  transform: scale(1.02);
+}
+
+.tab-btn:hover:not(.active) {
+  background: rgba(213, 176, 194, 0.15);
+  color: var(--purple);
+}
+
+/* ===== Section Header ===== */
+.section-header {
+  text-align: center;
+  padding: 36px 20px 8px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ===== Grid Icon ===== */
+.grid-icon {
+  padding: 10px 28px;
+  font-size: 1.4rem;
+  color: var(--purple);
+}
+
+/* ===== Menu Grid ===== */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 0 28px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== Menu Card ===== */
+.menu-card {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  animation: fadeInUp 0.5s ease both;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(180, 100, 140, 0.24);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-card:nth-child(1) { animation-delay: 0.05s; }
+.menu-card:nth-child(2) { animation-delay: 0.10s; }
+.menu-card:nth-child(3) { animation-delay: 0.15s; }
+.menu-card:nth-child(4) { animation-delay: 0.20s; }
+.menu-card:nth-child(5) { animation-delay: 0.25s; }
+.menu-card:nth-child(6) { animation-delay: 0.30s; }
+.menu-card:nth-child(7) { animation-delay: 0.35s; }
+.menu-card:nth-child(8) { animation-delay: 0.40s; }
+.menu-card:nth-child(9) { animation-delay: 0.45s; }
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.menu-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.card-image-wrap {
+  overflow: hidden;
+  height: 200px;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-direction: row-reverse;
+}
+
+.card-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: right;
+}
+
+.card-price {
+  background: linear-gradient(90deg, #edd8e4, #f0dce8);
+  color: var(--purple);
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  text-align: right;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 24px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(213, 176, 194, 0.25);
+}
+
+/* ===== Tab Content ===== */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 12px 36px;
+    gap: 10px;
+  }
+
+  .card-image, .card-image-wrap { height: 130px; }
+
+  .card-body { padding: 10px; }
+
+  .card-name { font-size: 0.82rem; }
+
+  .card-price {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+  }
+
+  .card-desc {
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  .tabs-container {
+    justify-content: flex-start;
+    padding: 20px 16px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 0 10px 32px;
+  }
+
+  .card-image, .card-image-wrap { height: 110px; }
+
+  .card-body { padding: 8px; }
+
+  .card-name { font-size: 0.78rem; }
+
+  .card-price {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+
+  .card-desc {
+    font-size: 0.68rem;
+    line-height: 1.3;
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+.font {
+  font-family: 'Dancing Script';
+}
