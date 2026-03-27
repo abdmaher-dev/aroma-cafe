@@ -97,6 +97,7 @@ function buildCard(item, index) {
         class="card-image"
         src="${item.image}"
         alt="${item.name}"
+        loading="lazy"
         onerror="this.src='images/placeholder.jpg'; this.onerror=null;"
       />
     </div>
