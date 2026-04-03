@@ -7,9 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="/public/assests/coffee_logo.webp">
   <style>
-    /* ============================================================
-       VARIABLES
-    ============================================================ */
     :root {
       --rose:       #c8607a;
       --rose-light: #e8a0b0;
@@ -30,154 +27,68 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Cairo', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; direction: rtl; overflow-x: hidden; }
 
-    /* ============================================================
-       LOGIN
-    ============================================================ */
-    #loginPage {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #5a1e30 0%, #8a3050 50%, #c8607a 100%);
-      padding: 20px;
-    }
-    .login-card {
-      background: var(--white); border-radius: 24px;
-      padding: 44px 40px 36px; width: 100%; max-width: 400px;
-      box-shadow: 0 24px 80px rgba(80,20,40,0.35);
-      text-align: center;
-      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    /* LOGIN */
+    #loginPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#5a1e30 0%,#8a3050 50%,#c8607a 100%); padding: 20px; }
+    .login-card { background: var(--white); border-radius: 24px; padding: 44px 40px 36px; width: 100%; max-width: 400px; box-shadow: 0 24px 80px rgba(80,20,40,0.35); text-align: center; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes popIn { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .login-logo  { font-size: 3rem; margin-bottom: 6px; }
     .login-title { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--rose-deep); margin-bottom: 4px; }
     .login-sub   { font-size: 0.82rem; color: var(--muted); margin-bottom: 28px; }
     .login-form  { display: flex; flex-direction: column; gap: 14px; text-align: right; }
     .login-group label { font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 6px; }
-    .login-group input {
-      width: 100%; padding: 12px 16px;
-      border: 1.5px solid var(--warm-gray); border-radius: 12px;
-      font-family: 'Cairo', sans-serif; font-size: 0.9rem;
-      direction: ltr; text-align: left; transition: border 0.2s;
-    }
+    .login-group input { width: 100%; padding: 12px 16px; border: 1.5px solid var(--warm-gray); border-radius: 12px; font-family: 'Cairo', sans-serif; font-size: 0.9rem; direction: ltr; text-align: left; transition: border 0.2s; }
     .login-group input:focus { outline: none; border-color: var(--rose); }
-    .login-btn {
-      width: 100%; padding: 13px;
-      background: linear-gradient(135deg, var(--rose-deep), var(--rose));
-      color: var(--white); border: none; border-radius: 12px;
-      font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700;
-      cursor: pointer; margin-top: 6px; transition: all 0.2s ease;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
+    .login-btn { width: 100%; padding: 13px; background: linear-gradient(135deg,var(--rose-deep),var(--rose)); color: var(--white); border: none; border-radius: 12px; font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 6px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .login-btn:hover   { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,96,122,0.45); }
     .login-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
     .login-error { color: var(--danger); font-size: 0.82rem; background: #fdecea; padding: 10px 14px; border-radius: 10px; display: none; }
     .login-error.show { display: block; }
 
-    /* ============================================================
-       ADMIN PANEL LAYOUT
-    ============================================================ */
+    /* ADMIN LAYOUT */
     #adminPanel { display: none; }
-
-    /* ---- Sidebar ---- */
-    .sidebar {
-      position: fixed; right: 0; top: 0;
-      width: var(--sidebar-w); height: 100vh;
-      background: linear-gradient(175deg, var(--rose-deep) 0%, #5a1e30 100%);
-      display: flex; flex-direction: column;
-      z-index: 200;
-      box-shadow: -4px 0 30px rgba(100,30,50,0.3);
-      transition: transform 0.3s ease;
-    }
+    .sidebar { position: fixed; right: 0; top: 0; width: var(--sidebar-w); height: 100vh; background: linear-gradient(175deg,var(--rose-deep) 0%,#5a1e30 100%); display: flex; flex-direction: column; z-index: 200; box-shadow: -4px 0 30px rgba(100,30,50,0.3); transition: transform 0.3s ease; }
     .sidebar-logo { padding: 26px 20px 18px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.10); }
     .sidebar-logo .lg { font-size: 2.2rem; display: block; margin-bottom: 4px; }
     .sidebar-logo h1 { font-family: 'Dancing Script', cursive; color: var(--white); font-size: 1.35rem; }
     .sidebar-logo p  { color: rgba(255,255,255,0.5); font-size: 0.7rem; margin-top: 2px; }
     .sidebar-nav { flex: 1; padding: 18px 12px; display: flex; flex-direction: column; gap: 3px; overflow-y: auto; }
     .nav-label { color: rgba(255,255,255,0.32); font-size: 0.62rem; font-weight: 700; padding: 10px 8px 4px; letter-spacing: 1px; }
-    .nav-btn {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 14px; border: none; border-radius: 10px;
-      background: transparent; color: rgba(255,255,255,0.68);
-      font-family: 'Cairo', sans-serif; font-size: 0.9rem;
-      cursor: pointer; transition: all 0.2s; text-align: right; width: 100%;
-    }
+    .nav-btn { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border: none; border-radius: 10px; background: transparent; color: rgba(255,255,255,0.68); font-family: 'Cairo', sans-serif; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; text-align: right; width: 100%; }
     .nav-btn .ic { font-size: 1.1rem; flex-shrink: 0; }
     .nav-btn:hover  { background: rgba(255,255,255,0.10); color: var(--white); }
     .nav-btn.active { background: rgba(255,255,255,0.18); color: var(--white); font-weight: 700; }
     .sidebar-footer { padding: 14px; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); font-size: 0.68rem; text-align: center; }
-    .logout-btn {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 9px 14px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
-      background: transparent; color: rgba(255,255,255,0.7);
-      font-family: 'Cairo', sans-serif; font-size: 0.82rem;
-      cursor: pointer; margin-bottom: 10px; width: 100%; transition: all 0.2s;
-    }
+    .logout-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 14px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; background: transparent; color: rgba(255,255,255,0.7); font-family: 'Cairo', sans-serif; font-size: 0.82rem; cursor: pointer; margin-bottom: 10px; width: 100%; transition: all 0.2s; }
     .logout-btn:hover { background: rgba(255,255,255,0.12); color: var(--white); }
-
-    /* Sidebar overlay for mobile */
-    .sidebar-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 199;
-    }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 199; }
     .sidebar-overlay.show { display: block; }
-
-    /* ---- Main ---- */
     .main { margin-right: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
-
-    /* ---- Topbar ---- */
-    .topbar {
-      background: var(--white); padding: 12px 22px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--warm-gray);
-      position: sticky; top: 0; z-index: 100;
-      gap: 10px;
-    }
+    .topbar { background: var(--white); padding: 12px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--warm-gray); position: sticky; top: 0; z-index: 100; gap: 10px; }
     .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .menu-toggle {
-      display: none;
-      background: var(--rose-pale); border: none; border-radius: 10px;
-      width: 38px; height: 38px; cursor: pointer; font-size: 1.1rem;
-      align-items: center; justify-content: center;
-      color: var(--rose-deep); flex-shrink: 0;
-    }
+    .menu-toggle { display: none; background: var(--rose-pale); border: none; border-radius: 10px; width: 38px; height: 38px; cursor: pointer; font-size: 1.1rem; align-items: center; justify-content: center; color: var(--rose-deep); flex-shrink: 0; }
     .topbar-title { font-size: 1rem; font-weight: 700; white-space: nowrap; }
     .topbar-title span { color: var(--rose); }
-    .user-badge {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--rose-pale); padding: 6px 12px; border-radius: 20px;
-      font-size: 0.75rem; color: var(--rose-deep); font-weight: 600;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
-    }
+    .user-badge { display: flex; align-items: center; gap: 6px; background: var(--rose-pale); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; color: var(--rose-deep); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
 
-    /* ============================================================
-       PAGES
-    ============================================================ */
+    /* PAGES */
     .page { display: none; padding: 20px; flex: 1; }
     .page.active { display: block; animation: fadeUp 0.28s ease; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ---- Stats ---- */
+    /* STATS */
     .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
-    .stat-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 16px; box-shadow: var(--shadow);
-      display: flex; align-items: center; gap: 12px; transition: transform 0.2s;
-    }
+    .stat-card { background: var(--white); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; transition: transform 0.2s; }
     .stat-card:hover { transform: translateY(-3px); }
     .stat-ic { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0; }
-    .si-rose   { background: #fde8ee; }
-    .si-purple { background: #ede8fd; }
-    .si-green  { background: #e8fdf0; }
-    .si-amber  { background: #fdf6e8; }
+    .si-rose{background:#fde8ee;} .si-purple{background:#ede8fd;} .si-green{background:#e8fdf0;} .si-amber{background:#fdf6e8;}
     .stat-info h3 { font-size: 1.5rem; font-weight: 900; line-height: 1; }
     .stat-info p  { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
 
-    /* ---- Section head ---- */
+    /* SECTION HEAD */
     .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
     .sec-head h2 { font-size: 1.05rem; font-weight: 700; }
 
-    /* ---- Buttons ---- */
+    /* BUTTONS */
     .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border: none; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 0.84rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .btn-primary { background: var(--rose); color: var(--white); }
     .btn-primary:hover { background: var(--rose-deep); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,96,122,0.4); }
@@ -187,21 +98,16 @@
     .btn-danger:hover { background: var(--danger); color: var(--white); }
     .btn-sm { padding: 6px 11px; font-size: 0.74rem; border-radius: 8px; }
 
-    /* ---- Filter bar ---- */
+    /* FILTER */
     .filter-bar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
     .search-box { flex: 1; min-width: 150px; position: relative; }
-    .search-box input {
-      width: 100%; padding: 9px 14px 9px 34px;
-      border: 1.5px solid var(--warm-gray); border-radius: 10px;
-      font-family: 'Cairo', sans-serif; font-size: 0.85rem;
-      background: var(--white); direction: rtl;
-    }
+    .search-box input { width: 100%; padding: 9px 14px 9px 34px; border: 1.5px solid var(--warm-gray); border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 0.85rem; background: var(--white); direction: rtl; }
     .search-box input:focus { outline: none; border-color: var(--rose); }
     .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
     .filter-sel { padding: 9px 12px; border: 1.5px solid var(--warm-gray); border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 0.84rem; background: var(--white); cursor: pointer; max-width: 160px; }
     .filter-sel:focus { outline: none; border-color: var(--rose); }
 
-    /* ---- Table ---- */
+    /* TABLE */
     .tbl-wrap { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
     .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tbl { width: 100%; border-collapse: collapse; min-width: 500px; }
@@ -216,7 +122,38 @@
     .act-cell { display: flex; gap: 5px; flex-wrap: nowrap; }
     .desc-cell { max-width: 180px; color: var(--muted); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* ---- Category cards ---- */
+    /* ---- DRAG & DROP ROWS ---- */
+    .tbl tr.dragging td { background: var(--rose-pale) !important; opacity: 0.7; }
+    .tbl tr.drag-over td { border-top: 3px solid var(--rose) !important; }
+    .drag-handle { cursor: grab; color: var(--muted); font-size: 1rem; padding: 4px 6px; border-radius: 6px; transition: color 0.2s, background 0.2s; user-select: none; }
+    .drag-handle:hover { color: var(--rose); background: var(--rose-pale); }
+    .drag-handle:active { cursor: grabbing; }
+
+    /* ---- CATEGORY DRAG TABLE ---- */
+    #catDragTbody tr.dragging td { background: var(--rose-pale) !important; opacity: 0.7; }
+    #catDragTbody tr.drag-over td { border-top: 3px solid var(--rose) !important; }
+
+    /* ---- CATEGORY PICKER (items page) ---- */
+    .cat-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; margin-bottom: 4px; }
+    .cat-pick-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 16px 10px; border: 2px solid var(--warm-gray); border-radius: var(--radius);
+      background: var(--white); cursor: pointer; transition: all 0.2s; font-family: 'Cairo', sans-serif;
+      box-shadow: var(--shadow);
+    }
+    .cat-pick-btn:hover { border-color: var(--rose); transform: translateY(-2px); }
+    .cat-pick-btn.active { border-color: var(--rose); background: var(--rose-pale); }
+    .cat-pick-ic { font-size: 1.8rem; }
+    .cat-pick-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+    .cat-pick-count { font-size: 0.68rem; color: var(--muted); }
+
+    /* items section (hidden until cat selected) */
+    #itemsSection { display: none; }
+    #itemsSection.show { display: block; animation: fadeUp 0.25s ease; }
+    .back-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 0.85rem; color: var(--muted); padding: 0; margin-bottom: 16px; transition: color 0.2s; }
+    .back-btn:hover { color: var(--rose); }
+
+    /* CATEGORY CARDS */
     .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 14px; }
     .cat-card { background: var(--white); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); transition: transform 0.2s; }
     .cat-card:hover { transform: translateY(-3px); }
@@ -227,29 +164,17 @@
     .cat-card p  { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
     .cat-count { font-size: 0.69rem; color: var(--rose); font-weight: 600; margin-top: 6px; }
 
-    /* ---- Empty / Loading ---- */
+    /* EMPTY / LOADING */
     .empty { text-align: center; padding: 50px 20px; color: var(--muted); }
     .empty .ei { font-size: 2.8rem; margin-bottom: 10px; }
     .loading { display: flex; align-items: center; justify-content: center; padding: 50px; gap: 10px; color: var(--muted); }
     .spin { width: 22px; height: 22px; border: 3px solid var(--warm-gray); border-top-color: var(--rose); border-radius: 50%; animation: sp 0.7s linear infinite; }
     @keyframes sp { to { transform: rotate(360deg); } }
 
-    /* ============================================================
-       MODAL
-    ============================================================ */
-    .overlay {
-      position: fixed; inset: 0;
-      background: rgba(30,10,18,0.55);
-      z-index: 300; display: flex; align-items: center; justify-content: center;
-      padding: 16px; opacity: 0; visibility: hidden; transition: all 0.22s ease;
-    }
+    /* MODAL */
+    .overlay { position: fixed; inset: 0; background: rgba(30,10,18,0.55); z-index: 300; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; visibility: hidden; transition: all 0.22s ease; }
     .overlay.open { opacity: 1; visibility: visible; }
-    .modal {
-      background: var(--white); border-radius: 18px;
-      width: 100%; max-width: 520px; max-height: 94vh; overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(100,30,50,0.3);
-      transform: scale(0.94) translateY(18px); transition: transform 0.22s ease;
-    }
+    .modal { background: var(--white); border-radius: 18px; width: 100%; max-width: 520px; max-height: 94vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(100,30,50,0.3); transform: scale(0.94) translateY(18px); transition: transform 0.22s ease; }
     .overlay.open .modal { transform: scale(1) translateY(0); }
     .modal-hd { padding: 18px 20px 14px; border-bottom: 1px solid var(--warm-gray); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--white); z-index: 1; }
     .modal-hd h3 { font-size: 0.96rem; font-weight: 700; }
@@ -258,24 +183,15 @@
     .modal-bd { padding: 18px 20px; }
     .modal-ft { padding: 14px 20px; border-top: 1px solid var(--warm-gray); display: flex; gap: 10px; flex-wrap: wrap; }
 
-    /* ---- Form ---- */
+    /* FORM */
     .fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
     .fg label { font-size: 0.78rem; font-weight: 700; }
-    .fg input, .fg textarea, .fg select {
-      padding: 10px 13px; border: 1.5px solid var(--warm-gray); border-radius: 10px;
-      font-family: 'Cairo', sans-serif; font-size: 0.84rem; direction: rtl; resize: none;
-      width: 100%;
-    }
+    .fg input, .fg textarea, .fg select { padding: 10px 13px; border: 1.5px solid var(--warm-gray); border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 0.84rem; direction: rtl; resize: none; width: 100%; }
     .fg input:focus, .fg textarea:focus, .fg select:focus { outline: none; border-color: var(--rose); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    /* ---- Upload area ---- */
-    .upload-area {
-      border: 2px dashed var(--rose-light); border-radius: 12px;
-      background: var(--rose-pale); cursor: pointer;
-      min-height: 120px; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; overflow: hidden; position: relative;
-    }
+    /* UPLOAD */
+    .upload-area { border: 2px dashed var(--rose-light); border-radius: 12px; background: var(--rose-pale); cursor: pointer; min-height: 120px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; overflow: hidden; position: relative; }
     .upload-area:hover, .upload-area.drag { border-color: var(--rose); background: #faeaee; }
     .upload-ph { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--muted); font-size: 0.82rem; pointer-events: none; text-align: center; padding: 10px; }
     .upload-ph .uic { font-size: 1.8rem; }
@@ -285,121 +201,65 @@
     .upload-prog { width: 100%; padding: 16px; display: none; flex-direction: column; align-items: center; gap: 8px; }
     .upload-bar { width: 100%; height: 5px; background: var(--warm-gray); border-radius: 10px; overflow: hidden; }
     .upload-bar::after { content: ''; display: block; height: 100%; background: var(--rose); border-radius: 10px; animation: barSlide 1.1s ease infinite; }
-    @keyframes barSlide { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    @keyframes barSlide { 0%{transform:translateX(100%)} 100%{transform:translateX(-100%)} }
     .upload-status { font-size: 0.74rem; color: var(--rose); }
     .upload-result { font-size: 0.72rem; color: var(--muted); margin-top: 4px; display: none; }
 
-    /* ---- Confirm ---- */
+    /* CONFIRM */
     .confirm-modal { max-width: 320px; text-align: center; }
     .confirm-modal .ci { font-size: 2.4rem; margin: 8px 0 10px; }
     .confirm-modal p { font-size: 0.84rem; color: var(--muted); }
     .confirm-modal strong { color: var(--text); }
 
-    /* ---- Toast ---- */
+    /* TOAST */
     .toast-box { position: fixed; bottom: 20px; left: 20px; z-index: 999; display: flex; flex-direction: column; gap: 7px; max-width: calc(100vw - 40px); }
     .toast { display: flex; align-items: center; gap: 9px; padding: 11px 15px; border-radius: 12px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 6px 22px rgba(0,0,0,0.14); animation: tIn 0.28s ease, tOut 0.28s ease 2.7s forwards; min-width: 180px; }
-    .toast.success { background: var(--success); color: var(--white); }
-    .toast.error   { background: var(--danger);  color: var(--white); }
-    .toast.info    { background: var(--rose);    color: var(--white); }
-    @keyframes tIn  { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    @keyframes tOut { to { transform: translateY(8px); opacity: 0; } }
+    .toast.success{background:var(--success);color:var(--white);}
+    .toast.error  {background:var(--danger); color:var(--white);}
+    .toast.info   {background:var(--rose);   color:var(--white);}
+    @keyframes tIn  { from{transform:translateX(-20px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes tOut { to{transform:translateY(8px);opacity:0} }
 
-    /* ============================================================
-       RESPONSIVE — Tablet 1024px
-    ============================================================ */
-    @media (max-width: 1024px) {
-      :root { --sidebar-w: 210px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .desc-cell { display: none; }
+    /* RESPONSIVE */
+    @media(max-width:1024px){ :root{--sidebar-w:210px;} .stats-grid{grid-template-columns:repeat(2,1fr);} .desc-cell{display:none;} }
+    @media(max-width:768px){
+      .sidebar{transform:translateX(100%);} .sidebar.open{transform:translateX(0);}
+      .menu-toggle{display:flex;} .main{margin-right:0;}
+      .topbar{padding:10px 14px;} .topbar-title{font-size:0.9rem;}
+      .user-badge{font-size:0.7rem;padding:5px 10px;max-width:130px;}
+      .page{padding:14px;}
+      .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+      .stat-card{padding:12px;gap:10px;} .stat-ic{width:40px;height:40px;font-size:1.1rem;border-radius:10px;}
+      .stat-info h3{font-size:1.25rem;} .stat-info p{font-size:0.7rem;}
+      .form-row{grid-template-columns:1fr;} .tbl-desc-col{display:none;}
+      .overlay{padding:10px;align-items:flex-end;}
+      .modal{border-radius:18px 18px 0 0;max-height:95vh;max-width:100%;}
+      .cat-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+      .sec-head h2{font-size:0.95rem;}
+      .btn{padding:8px 13px;font-size:0.8rem;} .btn-sm{padding:5px 10px;font-size:0.7rem;}
+      .cat-picker{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}
     }
-
-    /* ============================================================
-       RESPONSIVE — Mobile 768px
-    ============================================================ */
-    @media (max-width: 768px) {
-      /* Sidebar becomes drawer */
-      .sidebar { transform: translateX(100%); }
-      .sidebar.open { transform: translateX(0); }
-      .menu-toggle { display: flex; }
-      .main { margin-right: 0; }
-
-      /* Topbar */
-      .topbar { padding: 10px 14px; }
-      .topbar-title { font-size: 0.9rem; }
-      .user-badge { font-size: 0.7rem; padding: 5px 10px; max-width: 130px; }
-
-      /* Pages */
-      .page { padding: 14px; }
-
-      /* Stats */
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-      .stat-card { padding: 12px; gap: 10px; }
-      .stat-ic { width: 40px; height: 40px; font-size: 1.1rem; border-radius: 10px; }
-      .stat-info h3 { font-size: 1.25rem; }
-      .stat-info p  { font-size: 0.7rem; }
-
-      /* Form row → single column on mobile */
-      .form-row { grid-template-columns: 1fr; }
-
-      /* Table — hide description column */
-      .tbl-desc-col { display: none; }
-
-      /* Modal full width */
-      .overlay { padding: 10px; align-items: flex-end; }
-      .modal { border-radius: 18px 18px 0 0; max-height: 95vh; max-width: 100%; }
-
-      /* Cat grid */
-      .cat-grid { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; }
-
-      /* Sec head */
-      .sec-head h2 { font-size: 0.95rem; }
-
-      /* Buttons */
-      .btn { padding: 8px 13px; font-size: 0.8rem; }
-      .btn-sm { padding: 5px 10px; font-size: 0.7rem; }
+    @media(max-width:480px){
+      .login-card{padding:30px 22px 26px;} .login-title{font-size:1.7rem;}
+      .stats-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+      .stat-card{padding:10px;gap:8px;} .stat-ic{width:36px;height:36px;font-size:1rem;} .stat-info h3{font-size:1.1rem;}
+      .user-badge .email-text{display:none;}
+      .tbl th,.tbl td{padding:8px;font-size:0.76rem;}
+      .item-img,.no-img{width:38px;height:38px;}
+      .cat-grid{grid-template-columns:1fr 1fr;gap:8px;} .cat-card{padding:12px;}
+      .cat-ic{width:38px;height:38px;font-size:1.2rem;}
+      .toast-box{bottom:12px;left:12px;right:12px;} .toast{min-width:unset;width:100%;}
     }
-
-    /* ============================================================
-       RESPONSIVE — Small Mobile 480px
-    ============================================================ */
-    @media (max-width: 480px) {
-      .login-card { padding: 30px 22px 26px; }
-      .login-title { font-size: 1.7rem; }
-
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .stat-card { padding: 10px; gap: 8px; }
-      .stat-ic { width: 36px; height: 36px; font-size: 1rem; }
-      .stat-info h3 { font-size: 1.1rem; }
-
-      .user-badge .email-text { display: none; }
-
-      .tbl th, .tbl td { padding: 8px 8px; font-size: 0.76rem; }
-      .item-img, .no-img { width: 38px; height: 38px; }
-
-      .cat-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .cat-card { padding: 12px; }
-      .cat-ic { width: 38px; height: 38px; font-size: 1.2rem; }
-
-      .toast-box { bottom: 12px; left: 12px; right: 12px; }
-      .toast { min-width: unset; width: 100%; }
-    }
-
-    /* ============================================================
-       RESPONSIVE — Very small 360px
-    ============================================================ */
-    @media (max-width: 360px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-      .sec-head { flex-direction: column; align-items: flex-start; }
-      .filter-bar { flex-direction: column; }
-      .filter-sel { max-width: 100%; width: 100%; }
+    @media(max-width:360px){
+      .stats-grid{grid-template-columns:1fr 1fr;gap:6px;}
+      .sec-head{flex-direction:column;align-items:flex-start;}
+      .filter-bar{flex-direction:column;} .filter-sel{max-width:100%;width:100%;}
     }
   </style>
 </head>
 <body>
 
-<!-- ========================================== -->
-<!-- LOGIN                                      -->
-<!-- ========================================== -->
+<!-- LOGIN -->
 <div id="loginPage">
   <div class="login-card">
     <div class="login-logo">☕</div>
@@ -422,15 +282,9 @@
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- ADMIN PANEL                                -->
-<!-- ========================================== -->
+<!-- ADMIN PANEL -->
 <div id="adminPanel">
-
-  <!-- Sidebar overlay (mobile) -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
-  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <span class="lg">☕</span>
@@ -439,9 +293,9 @@
     </div>
     <nav class="sidebar-nav">
       <span class="nav-label">القائمة</span>
-      <button class="nav-btn active" onclick="showPage('dashboard', this)"><span class="ic">📊</span> لوحة التحكم</button>
-      <button class="nav-btn" onclick="showPage('items', this)"><span class="ic">🍽️</span> إدارة العناصر</button>
-      <button class="nav-btn" onclick="showPage('categories', this)"><span class="ic">📂</span> إدارة الأقسام</button>
+      <button class="nav-btn active" onclick="showPage('dashboard',this)"><span class="ic">📊</span> لوحة التحكم</button>
+      <button class="nav-btn" onclick="showPage('items',this)"><span class="ic">🍽️</span> إدارة العناصر</button>
+      <button class="nav-btn" onclick="showPage('categories',this)"><span class="ic">📂</span> إدارة الأقسام</button>
     </nav>
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="doLogout()">🚪 تسجيل الخروج</button>
@@ -449,10 +303,7 @@
     </div>
   </aside>
 
-  <!-- Main -->
   <div class="main">
-
-    <!-- Topbar -->
     <div class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
@@ -471,49 +322,59 @@
       </div>
       <div class="sec-head">
         <h2>📋 آخر العناصر المضافة</h2>
-        <button class="btn btn-ghost btn-sm" onclick="showPage('items', document.querySelectorAll('.nav-btn')[1])">عرض الكل</button>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('items',document.querySelectorAll('.nav-btn')[1])">عرض الكل</button>
       </div>
-      <div class="tbl-wrap">
-        <div class="tbl-scroll">
-          <table class="tbl">
-            <thead><tr><th>الصورة</th><th>الاسم</th><th>القسم</th><th>السعر</th></tr></thead>
-            <tbody id="recentTbody"><tr><td colspan="4"><div class="loading"><div class="spin"></div> جاري التحميل...</div></td></tr></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="tbl-wrap"><div class="tbl-scroll">
+        <table class="tbl">
+          <thead><tr><th>الصورة</th><th>الاسم</th><th>القسم</th><th>السعر</th></tr></thead>
+          <tbody id="recentTbody"><tr><td colspan="4"><div class="loading"><div class="spin"></div> جاري التحميل...</div></td></tr></tbody>
+        </table>
+      </div></div>
     </div>
 
-    <!-- Items -->
+    <!-- Items — Category picker first, then items list -->
     <div class="page" id="page-items">
-      <div class="sec-head">
-        <h2>🍽️ إدارة العناصر</h2>
-        <button class="btn btn-primary" onclick="openItemModal()">＋ إضافة عنصر</button>
-      </div>
-      <div class="filter-bar">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchQ" placeholder="ابحث عن عنصر..." oninput="filterItems()" />
+
+      <!-- Step 1: pick a category -->
+      <div id="catPickerSection">
+        <div class="sec-head">
+          <h2>🍽️ إدارة العناصر — اختر القسم</h2>
+          <button class="btn btn-primary" onclick="openItemModal()">＋ إضافة عنصر</button>
         </div>
-        <select class="filter-sel" id="catFilter" onchange="filterItems()">
-          <option value="">كل الأقسام</option>
-        </select>
+        <div class="cat-picker" id="catPicker">
+          <div class="loading"><div class="spin"></div> جاري التحميل...</div>
+        </div>
       </div>
-      <div class="tbl-wrap">
-        <div class="tbl-scroll">
+
+      <!-- Step 2: items of selected category -->
+      <div id="itemsSection">
+        <button class="back-btn" onclick="backToCatPicker()">← رجوع للأقسام</button>
+        <div class="sec-head">
+          <h2 id="itemsSectionTitle">🍽️ العناصر</h2>
+          <button class="btn btn-primary" onclick="openItemModal()">＋ إضافة عنصر</button>
+        </div>
+        <div class="filter-bar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchQ" placeholder="ابحث عن عنصر..." oninput="filterItems()" />
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px;">⠿ اسحب الصفوف لتغيير ترتيب ظهور العناصر في المنيو</p>
+        <div class="tbl-wrap"><div class="tbl-scroll">
           <table class="tbl">
             <thead>
               <tr>
+                <th style="width:30px"></th>
                 <th>الصورة</th>
                 <th>الاسم</th>
                 <th class="tbl-desc-col">الوصف</th>
-                <th>القسم</th>
                 <th>السعر</th>
                 <th>إجراءات</th>
               </tr>
             </thead>
-            <tbody id="itemsTbody"><tr><td colspan="6"><div class="loading"><div class="spin"></div> جاري التحميل...</div></td></tr></tbody>
+            <tbody id="itemsTbody"></tbody>
           </table>
-        </div>
+        </div></div>
       </div>
     </div>
 
@@ -523,13 +384,29 @@
         <h2>📂 إدارة الأقسام</h2>
         <button class="btn btn-primary" onclick="openCatModal()">＋ إضافة قسم</button>
       </div>
-      <div class="cat-grid" id="catGrid"><div class="loading"><div class="spin"></div> جاري التحميل...</div></div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;">⠿ اسحب الصفوف لتغيير ترتيب ظهور الأقسام في المنيو</p>
+      <div class="tbl-wrap"><div class="tbl-scroll">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th style="width:30px"></th>
+              <th style="width:44px">أيقونة</th>
+              <th>اسم القسم</th>
+              <th class="tbl-desc-col">الوصف</th>
+              <th>المفتاح</th>
+              <th>العناصر</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="catDragTbody"><tr><td colspan="7"><div class="loading"><div class="spin"></div> جاري التحميل...</div></td></tr></tbody>
+        </table>
+      </div></div>
     </div>
 
-  </div><!-- /main -->
-</div><!-- /adminPanel -->
+  </div>
+</div>
 
-<!-- ===== Item Modal ===== -->
+<!-- Item Modal -->
 <div class="overlay" id="itemOverlay">
   <div class="modal">
     <div class="modal-hd">
@@ -538,17 +415,17 @@
     </div>
     <div class="modal-bd">
       <div class="form-row">
-        <div class="fg"><label>الاسم *</label><input type="text" id="fi-name" placeholder="مثال: لاتيه كراميل" /></div>
-        <div class="fg"><label>السعر *</label><input type="text" id="fi-price" placeholder="مثال: 4,500" /></div>
+        <div class="fg"><label>الاسم *</label><input type="text" id="fi-name" placeholder="مثال: لاتيه كراميل" maxlength="100" /></div>
+        <div class="fg"><label>السعر *</label><input type="text" id="fi-price" placeholder="مثال: 4,500" maxlength="20" /></div>
       </div>
       <div class="fg"><label>القسم *</label>
         <select id="fi-cat"><option value="">اختر القسم</option></select>
       </div>
       <div class="fg"><label>الوصف</label>
-        <textarea id="fi-desc" rows="2" placeholder="وصف مختصر..."></textarea>
+        <textarea id="fi-desc" rows="2" placeholder="وصف مختصر..." maxlength="300"></textarea>
       </div>
       <div class="fg">
-        <label>الصورة</label>
+        <label>الصورة <span style="font-size:0.7rem;color:var(--muted);font-weight:400">(تُحوَّل تلقائياً لـ WebP)</span></label>
         <div class="upload-area" id="uploadArea" onclick="document.getElementById('fi-file').click()">
           <div class="upload-ph" id="uploadPh">
             <span class="uic">🖼️</span>
@@ -559,7 +436,7 @@
           <img id="uploadPrev" class="upload-prev" src="" alt="" />
           <div class="upload-prog" id="uploadProg">
             <div class="upload-bar"></div>
-            <span class="upload-status">⏳ جاري الرفع...</span>
+            <span class="upload-status" id="uploadStatusText">⏳ جاري الضغط والرفع...</span>
           </div>
         </div>
         <input type="file" id="fi-file" accept="image/*" style="display:none" onchange="handleUpload(this)" />
@@ -575,7 +452,7 @@
   </div>
 </div>
 
-<!-- ===== Category Modal ===== -->
+<!-- Category Modal -->
 <div class="overlay" id="catOverlay">
   <div class="modal">
     <div class="modal-hd">
@@ -584,11 +461,11 @@
     </div>
     <div class="modal-bd">
       <div class="form-row">
-        <div class="fg"><label>مفتاح القسم (إنجليزي) *</label><input type="text" id="fc-key" placeholder="مثال: cold_drinks" /></div>
-        <div class="fg"><label>الأيقونة</label><input type="text" id="fc-icon" placeholder="🥤" /></div>
+        <div class="fg"><label>مفتاح القسم (إنجليزي) *</label><input type="text" id="fc-key" placeholder="مثال: cold_drinks" maxlength="50" /></div>
+        <div class="fg"><label>الأيقونة</label><input type="text" id="fc-icon" placeholder="🥤" maxlength="10" /></div>
       </div>
-      <div class="fg"><label>اسم القسم بالعربية *</label><input type="text" id="fc-label" placeholder="مثال: مشروبات باردة" /></div>
-      <div class="fg"><label>وصف القسم</label><input type="text" id="fc-sub" placeholder="وصف مختصر..." /></div>
+      <div class="fg"><label>اسم القسم بالعربية *</label><input type="text" id="fc-label" placeholder="مثال: مشروبات باردة" maxlength="60" /></div>
+      <div class="fg"><label>وصف القسم</label><input type="text" id="fc-sub" placeholder="وصف مختصر..." maxlength="150" /></div>
     </div>
     <div class="modal-ft">
       <button class="btn btn-primary" onclick="saveCat()">💾 حفظ</button>
@@ -597,7 +474,7 @@
   </div>
 </div>
 
-<!-- ===== Confirm Modal ===== -->
+<!-- Confirm Modal -->
 <div class="overlay" id="confirmOverlay">
   <div class="modal confirm-modal">
     <div class="modal-bd">
@@ -605,27 +482,43 @@
       <h3 style="margin-bottom:8px">تأكيد الحذف</h3>
       <p>هل أنت متأكد من حذف</p>
       <strong id="confirmName">—</strong>
-      <p style="margin-top:6px; color:var(--danger); font-size:0.76rem">لا يمكن التراجع عن هذا الإجراء</p>
+      <p style="margin-top:6px;color:var(--danger);font-size:0.76rem">لا يمكن التراجع عن هذا الإجراء</p>
     </div>
-    <div class="modal-ft" style="justify-content:center; gap:12px">
+    <div class="modal-ft" style="justify-content:center;gap:12px">
       <button class="btn btn-danger" id="confirmYes">حذف</button>
       <button class="btn btn-ghost" onclick="closeConfirm()">إلغاء</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast-box" id="toastBox"></div>
 
 <script>
 // ============================================================
-const API   = 'https://aroma-cafe-production.up.railway.app/api';
-let TOKEN   = localStorage.getItem('aroma_token') || '';
-let allItems = [], allCats = {}, catCounts = {};
-let editItemId = null, editCatKey = null;
+//  XSS PROTECTION — escape all user-generated content
+// ============================================================
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
 
 // ============================================================
-//  SIDEBAR MOBILE TOGGLE
+//  CONFIG
+// ============================================================
+const API = 'https://aroma-cafe-production.up.railway.app/api';
+let TOKEN = localStorage.getItem('aroma_token') || '';
+let allItems = [], allCats = {}, catCounts = {};
+let editItemId = null, editCatKey = null;
+let activeCatKey = null; // currently selected category in items page
+
+// ============================================================
+//  SIDEBAR
 // ============================================================
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
@@ -647,37 +540,56 @@ window.addEventListener('DOMContentLoaded', async () => {
 // ============================================================
 //  AUTH
 // ============================================================
-function showLogin() { document.getElementById('loginPage').style.display = 'flex'; document.getElementById('adminPanel').style.display = 'none'; }
-function showAdmin() { document.getElementById('loginPage').style.display = 'none'; document.getElementById('adminPanel').style.display = 'block'; initAdmin(); }
+function showLogin() {
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+}
+function showAdmin() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  initAdmin();
+}
 
 async function verifyToken() {
   try {
     const r = await apiFetch('/auth/verify');
-    if (r.valid) { document.getElementById('userEmail').textContent = r.user.email; return true; }
+    if (r.valid) { document.getElementById('userEmail').textContent = esc(r.user.email); return true; }
   } catch {}
   TOKEN = ''; localStorage.removeItem('aroma_token'); return false;
 }
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPass').value;
-  const btn   = document.getElementById('loginBtn');
-  const errEl = document.getElementById('loginError');
-  const errMsg = document.getElementById('loginErrMsg');
+  const emailEl = document.getElementById('loginEmail');
+  const passEl  = document.getElementById('loginPass');
+  const btn     = document.getElementById('loginBtn');
+  const errEl   = document.getElementById('loginError');
+  const errMsg  = document.getElementById('loginErrMsg');
+
+  // Basic XSS/injection: strip dangerous chars from email input
+  const email = emailEl.value.trim().slice(0, 200);
+  const pass  = passEl.value.slice(0, 200);
+
   errEl.classList.remove('show');
   if (!email || !pass) { errMsg.textContent = 'يرجى تعبئة جميع الحقول'; errEl.classList.add('show'); return; }
+  // Basic email format check
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errMsg.textContent = 'صيغة الإيميل غير صحيحة'; errEl.classList.add('show'); return; }
+
   btn.disabled = true;
   document.getElementById('loginBtnText').textContent = '⏳ جاري التحقق...';
   try {
-    const r = await fetch(`${API}/auth/login`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email, password: pass }) });
+    const r = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass }),
+    });
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'بيانات خاطئة');
     TOKEN = data.token;
     localStorage.setItem('aroma_token', TOKEN);
-    document.getElementById('userEmail').textContent = data.email;
+    document.getElementById('userEmail').textContent = esc(data.email);
     showAdmin();
   } catch (e) {
-    errMsg.textContent = e.message; errEl.classList.add('show');
+    errMsg.textContent = esc(e.message); errEl.classList.add('show');
   } finally {
     btn.disabled = false; document.getElementById('loginBtnText').textContent = 'تسجيل الدخول';
   }
@@ -695,7 +607,10 @@ function doLogout() {
 //  API helper
 // ============================================================
 async function apiFetch(path, opts = {}) {
-  const res = await fetch(API + path, { ...opts, headers: { 'Authorization': `Bearer ${TOKEN}`, ...(opts.headers || {}) } });
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: { 'Authorization': `Bearer ${TOKEN}`, ...(opts.headers || {}) },
+  });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'خطأ في الخادم');
   return data;
@@ -705,7 +620,10 @@ async function apiFetch(path, opts = {}) {
 //  INIT ADMIN
 // ============================================================
 async function initAdmin() {
-  await loadCats(); await loadItems(); await loadStats(); setupDragDrop();
+  await loadCats();
+  await loadItems();
+  await loadStats();
+  setupImageDrop();
 }
 
 function showPage(name, btn) {
@@ -713,7 +631,13 @@ function showPage(name, btn) {
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  closeSidebar(); // close drawer on mobile after nav
+  closeSidebar();
+  // Reset items page to category picker when navigating to it
+  if (name === 'items') {
+    document.getElementById('catPickerSection').style.display = 'block';
+    document.getElementById('itemsSection').classList.remove('show');
+    activeCatKey = null;
+  }
 }
 
 // ============================================================
@@ -729,6 +653,8 @@ async function loadStats() {
     document.getElementById('st-coffee').textContent   = coffee;
     document.getElementById('st-desserts').textContent = desserts;
     d.byCat.forEach(b => catCounts[b._id] = b.count);
+    // refresh picker counts
+    renderCatPicker();
   } catch {}
 }
 
@@ -737,36 +663,145 @@ async function loadStats() {
 // ============================================================
 async function loadCats() {
   const r = await fetch(`${API}/categories`);
-  allCats = await r.json();
-  const sel1 = document.getElementById('catFilter');
-  const sel2 = document.getElementById('fi-cat');
-  sel1.innerHTML = '<option value="">كل الأقسام</option>';
-  sel2.innerHTML = '<option value="">اختر القسم</option>';
+  const raw = await r.json();
+  // Sort by order field from server, then rebuild allCats
+  const sorted = Object.entries(raw).sort((a, b) => (a[1].order ?? 9999) - (b[1].order ?? 9999));
+  allCats = {};
+  sorted.forEach(([k, c]) => { allCats[k] = c; });
+  // Populate modal select
+  const sel = document.getElementById('fi-cat');
+  sel.innerHTML = '<option value="">اختر القسم</option>';
   Object.entries(allCats).forEach(([k,c]) => {
-    sel1.innerHTML += `<option value="${k}">${c.icon||'📂'} ${c.label}</option>`;
-    sel2.innerHTML += `<option value="${k}">${c.icon||'📂'} ${c.label}</option>`;
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = `${c.icon||'📂'} ${c.label}`;
+    sel.appendChild(opt);
   });
+  renderCatPicker();
   renderCatCards();
 }
 
-function renderCatCards() {
-  const g = document.getElementById('catGrid');
+function renderCatPicker() {
+  const g = document.getElementById('catPicker');
   const entries = Object.entries(allCats);
   if (!entries.length) { g.innerHTML = '<div class="empty"><div class="ei">📂</div><p>لا توجد أقسام</p></div>'; return; }
   g.innerHTML = entries.map(([k,c]) => `
-    <div class="cat-card">
-      <div class="cat-card-top">
-        <div class="cat-ic">${c.icon||'📂'}</div>
-        <div class="cat-card-actions">
-          <button class="btn btn-ghost btn-sm" onclick="openCatModal('${k}')">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="confirmDel('${c.label}', () => deleteCat('${k}'))">🗑️</button>
-        </div>
-      </div>
-      <h3>${c.label}</h3>
-      <p>${c.subtitle||'—'}</p>
-      <div class="cat-count">🔑 ${k} · ${catCounts[k]||0} عنصر</div>
-    </div>
+    <button class="cat-pick-btn ${activeCatKey===k?'active':''}" onclick="selectCat('${esc(k)}')">
+      <span class="cat-pick-ic">${esc(c.icon||'📂')}</span>
+      <span class="cat-pick-label">${esc(c.label)}</span>
+      <span class="cat-pick-count">${catCounts[k]||0} عنصر</span>
+    </button>
   `).join('');
+}
+
+function selectCat(key) {
+  activeCatKey = key;
+  const cat = allCats[key];
+  document.getElementById('catPickerSection').style.display = 'none';
+  document.getElementById('itemsSection').classList.add('show');
+  document.getElementById('itemsSectionTitle').textContent = `🍽️ ${cat?.label||key}`;
+  document.getElementById('searchQ').value = '';
+  renderItems(allItems.filter(i => i.category === key));
+}
+
+function backToCatPicker() {
+  activeCatKey = null;
+  document.getElementById('catPickerSection').style.display = 'block';
+  document.getElementById('itemsSection').classList.remove('show');
+  renderCatPicker();
+}
+
+function renderCatCards() {
+  const tb = document.getElementById('catDragTbody');
+  const entries = Object.entries(allCats);
+  if (!entries.length) {
+    tb.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="ei">📂</div><p>لا توجد أقسام</p></div></td></tr>';
+    return;
+  }
+  tb.innerHTML = entries.map(([k, c]) => `
+    <tr draggable="true" data-key="${esc(k)}">
+      <td><span class="drag-handle" title="اسحب لتغيير الترتيب">⠿</span></td>
+      <td style="font-size:1.4rem;text-align:center">${esc(c.icon || '📂')}</td>
+      <td><strong>${esc(c.label)}</strong></td>
+      <td class="tbl-desc-col desc-cell">${esc(c.subtitle || '—')}</td>
+      <td><span class="cat-badge">${esc(k)}</span></td>
+      <td style="color:var(--rose);font-weight:700">${catCounts[k] || 0}</td>
+      <td><div class="act-cell">
+        <button class="btn btn-ghost btn-sm" onclick="openCatModal('${esc(k)}')">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDel('${esc(c.label).replace(/'/g,"\\'")}',()=>deleteCat('${esc(k)}'))">🗑️</button>
+      </div></td>
+    </tr>
+  `).join('');
+  setupCatDragDrop();
+}
+
+// ============================================================
+//  DRAG & DROP — reorder categories
+// ============================================================
+let dragSrcCatKey = null;
+
+function setupCatDragDrop() {
+  const rows = document.querySelectorAll('#catDragTbody tr[draggable]');
+  rows.forEach(row => {
+    row.addEventListener('dragstart', e => {
+      dragSrcCatKey = row.dataset.key;
+      row.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      document.querySelectorAll('#catDragTbody tr').forEach(r => r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('#catDragTbody tr').forEach(r => r.classList.remove('drag-over'));
+      if (row.dataset.key !== dragSrcCatKey) row.classList.add('drag-over');
+    });
+    row.addEventListener('drop', async e => {
+      e.preventDefault();
+      const targetKey = row.dataset.key;
+      if (!dragSrcCatKey || dragSrcCatKey === targetKey) return;
+      await reorderCats(dragSrcCatKey, targetKey);
+    });
+  });
+}
+
+async function reorderCats(srcKey, targetKey) {
+  const rows = [...document.querySelectorAll('#catDragTbody tr[data-key]')];
+  const orderedKeys = rows.map(r => r.dataset.key);
+
+  const srcIdx    = orderedKeys.indexOf(srcKey);
+  const targetIdx = orderedKeys.indexOf(targetKey);
+  if (srcIdx === -1 || targetIdx === -1) return;
+
+  orderedKeys.splice(srcIdx, 1);
+  orderedKeys.splice(targetIdx, 0, srcKey);
+
+  // Rebuild allCats in the new order
+  const newCats = {};
+  orderedKeys.forEach((k, idx) => {
+    newCats[k] = { ...allCats[k], order: idx };
+  });
+  allCats = newCats;
+
+  // Re-render immediately
+  renderCatCards();
+  renderCatPicker();
+
+  // Save to server
+  try {
+    const orderPayload = orderedKeys.map((k, idx) => ({ key: k, order: idx }));
+    await apiFetch('/categories/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: orderPayload }),
+    });
+    toast('تم حفظ ترتيب الأقسام ✓', 'success');
+  } catch (e) {
+    toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
+    await loadCats();
+  }
 }
 
 function openCatModal(key=null) {
@@ -774,7 +809,8 @@ function openCatModal(key=null) {
   document.getElementById('catModalTitle').textContent = key ? 'تعديل القسم' : 'إضافة قسم جديد';
   if (key) {
     const c = allCats[key];
-    document.getElementById('fc-key').value   = key;   document.getElementById('fc-key').disabled = true;
+    document.getElementById('fc-key').value   = key;
+    document.getElementById('fc-key').disabled = true;
     document.getElementById('fc-label').value = c.label||'';
     document.getElementById('fc-icon').value  = c.icon||'';
     document.getElementById('fc-sub').value   = c.subtitle||'';
@@ -790,18 +826,29 @@ async function saveCat() {
   const key   = document.getElementById('fc-key').value.trim();
   const label = document.getElementById('fc-label').value.trim();
   if (!key||!label) { toast('يرجى تعبئة الحقول المطلوبة','error'); return; }
-  const body = { key, label, icon: document.getElementById('fc-icon').value.trim(), subtitle: document.getElementById('fc-sub').value.trim() };
+  // Validate key: only alphanumeric + underscore
+  if (!/^[a-z0-9_]+$/i.test(key)) { toast('مفتاح القسم يجب أن يحتوي على حروف وأرقام وشرطة سفلية فقط','error'); return; }
+  const body = {
+    key,
+    label: label.slice(0,60),
+    icon: document.getElementById('fc-icon').value.trim().slice(0,10),
+    subtitle: document.getElementById('fc-sub').value.trim().slice(0,150),
+  };
   try {
-    if (editCatKey) await apiFetch(`/categories/${editCatKey}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
-    else             await apiFetch('/categories', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    if (editCatKey) await apiFetch(`/categories/${editCatKey}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    else             await apiFetch('/categories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     toast(editCatKey?'تم تعديل القسم ✓':'تمت إضافة القسم ✓','success');
     closeCatModal(); await loadCats(); await loadStats();
-  } catch(e) { toast(e.message,'error'); }
+  } catch(e) { toast(esc(e.message),'error'); }
 }
 
 async function deleteCat(key) {
-  try { await apiFetch(`/categories/${key}`,{method:'DELETE'}); toast('تم حذف القسم ✓','success'); closeConfirm(); await loadCats(); await loadStats(); await loadItems(); }
-  catch(e) { toast(e.message,'error'); }
+  try {
+    await apiFetch(`/categories/${key}`,{method:'DELETE'});
+    toast('تم حذف القسم ✓','success');
+    closeConfirm();
+    await loadCats(); await loadStats(); await loadItems();
+  } catch(e) { toast(esc(e.message),'error'); }
 }
 
 // ============================================================
@@ -811,51 +858,59 @@ async function loadItems() {
   try {
     const r = await fetch(`${API}/items`);
     allItems = await r.json();
-    renderItems(allItems); renderRecent();
-  } catch {
-    document.getElementById('itemsTbody').innerHTML = '<tr><td colspan="6"><div class="empty"><div class="ei">⚠️</div><p>تعذّر تحميل البيانات</p></div></td></tr>';
-  }
+    allItems.sort((a,b) => (a.order??9999)-(b.order??9999));
+    renderRecent();
+    // if a category is currently selected, refresh its view
+    if (activeCatKey) renderItems(allItems.filter(i=>i.category===activeCatKey));
+  } catch {}
 }
 
 function renderItems(items) {
   const tb = document.getElementById('itemsTbody');
-  if (!items.length) { tb.innerHTML='<tr><td colspan="6"><div class="empty"><div class="ei">🍽️</div><p>لا توجد عناصر</p></div></td></tr>'; return; }
-  tb.innerHTML = items.map(it => {
-    const cat = allCats[it.category];
-    const img = it.image ? `<img class="item-img" src="${it.image}" alt="${it.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : '';
-    return `<tr>
+  if (!items.length) {
+    tb.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="ei">🍽️</div><p>لا توجد عناصر في هذا القسم</p></div></td></tr>`;
+    return;
+  }
+  const sorted = [...items].sort((a,b) => (a.order??9999)-(b.order??9999));
+  tb.innerHTML = sorted.map(it => {
+    const img = it.image
+      ? `<img class="item-img" src="${esc(it.image)}" alt="${esc(it.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    return `<tr draggable="true" data-id="${esc(it._id)}">
+      <td><span class="drag-handle" title="اسحب لتغيير الترتيب">⠿</span></td>
       <td>${img}<div class="no-img" ${it.image?'style="display:none"':''}>🍽️</div></td>
-      <td><strong>${it.name}</strong></td>
-      <td class="tbl-desc-col desc-cell">${it.description||'—'}</td>
-      <td><span class="cat-badge">${cat?.icon||'📂'} ${cat?.label||it.category}</span></td>
-      <td><span class="price-tag">${it.price} د.ع</span></td>
+      <td><strong>${esc(it.name)}</strong></td>
+      <td class="tbl-desc-col desc-cell">${esc(it.description||'—')}</td>
+      <td><span class="price-tag">${esc(it.price)} د.ع</span></td>
       <td><div class="act-cell">
-        <button class="btn btn-ghost btn-sm" onclick="openItemModal('${it._id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="confirmDel('${it.name.replace(/'/g,"\\'")}',()=>deleteItem('${it._id}'))">🗑️</button>
+        <button class="btn btn-ghost btn-sm" onclick="openItemModal('${esc(it._id)}')">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDel('${esc(it.name).replace(/'/g,"\\'")}',()=>deleteItem('${esc(it._id)}'))">🗑️</button>
       </div></td>
     </tr>`;
   }).join('');
+  setupDragDrop();
 }
 
 function renderRecent() {
   const tb = document.getElementById('recentTbody');
-  const items = allItems.slice(0,6);
+  const items = [...allItems].sort((a,b)=>(a.order??9999)-(b.order??9999)).slice(0,6);
   if (!items.length) { tb.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted)">لا توجد بيانات</td></tr>'; return; }
   tb.innerHTML = items.map(it => {
     const cat = allCats[it.category];
     return `<tr>
-      <td>${it.image?`<img class="item-img" src="${it.image}" alt="" onerror="this.style.display='none'">`:'<div class="no-img">🍽️</div>'}</td>
-      <td><strong>${it.name}</strong></td>
-      <td><span class="cat-badge">${cat?.label||it.category}</span></td>
-      <td><span class="price-tag">${it.price} د.ع</span></td>
+      <td>${it.image?`<img class="item-img" src="${esc(it.image)}" alt="" onerror="this.style.display='none'">`:'<div class="no-img">🍽️</div>'}</td>
+      <td><strong>${esc(it.name)}</strong></td>
+      <td><span class="cat-badge">${esc(cat?.label||it.category)}</span></td>
+      <td><span class="price-tag">${esc(it.price)} د.ع</span></td>
     </tr>`;
   }).join('');
 }
 
 function filterItems() {
-  const q = document.getElementById('searchQ').value.toLowerCase();
-  const c = document.getElementById('catFilter').value;
-  renderItems(allItems.filter(i=>(!c||i.category===c)&&(i.name.toLowerCase().includes(q)||(i.description||'').toLowerCase().includes(q))));
+  const q = document.getElementById('searchQ').value.toLowerCase().trim();
+  if (!activeCatKey) return;
+  const base = allItems.filter(i => i.category === activeCatKey);
+  renderItems(q ? base.filter(i => i.name.toLowerCase().includes(q)||(i.description||'').toLowerCase().includes(q)) : base);
 }
 
 function openItemModal(id=null) {
@@ -873,7 +928,7 @@ function openItemModal(id=null) {
     }
   } else {
     ['fi-name','fi-price','fi-desc'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('fi-cat').value    = '';
+    document.getElementById('fi-cat').value    = activeCatKey||'';
     document.getElementById('fi-fileId').value = '';
     resetUpload();
   }
@@ -882,55 +937,177 @@ function openItemModal(id=null) {
 function closeItemModal() { document.getElementById('itemOverlay').classList.remove('open'); editItemId=null; }
 
 async function saveItem() {
-  const name   = document.getElementById('fi-name').value.trim();
-  const price  = document.getElementById('fi-price').value.trim();
+  const name   = document.getElementById('fi-name').value.trim().slice(0,100);
+  const price  = document.getElementById('fi-price').value.trim().slice(0,20);
   const cat    = document.getElementById('fi-cat').value;
-  const desc   = document.getElementById('fi-desc').value.trim();
+  const desc   = document.getElementById('fi-desc').value.trim().slice(0,300);
   const image  = document.getElementById('fi-image').value;
   const fileId = document.getElementById('fi-fileId').value;
+
   if (!name||!price||!cat) { toast('يرجى تعبئة الحقول المطلوبة','error'); return; }
-  const body = JSON.stringify({name, price, category:cat, description:desc, image, fileId});
+  // Validate price: allow digits, commas, dots
+  if (!/^[\d,\.]+$/.test(price.replace(/\s/g,''))) { toast('السعر يجب أن يحتوي على أرقام فقط','error'); return; }
+
+  const body = JSON.stringify({ name, price, category:cat, description:desc, image, fileId });
   try {
-    if (editItemId) await apiFetch(`/items/${editItemId}`,{method:'PUT', headers:{'Content-Type':'application/json'}, body});
-    else             await apiFetch('/items',              {method:'POST',headers:{'Content-Type':'application/json'}, body});
+    if (editItemId) await apiFetch(`/items/${editItemId}`,{method:'PUT',headers:{'Content-Type':'application/json'},body});
+    else             await apiFetch('/items',              {method:'POST',headers:{'Content-Type':'application/json'},body});
     toast(editItemId?'تم التعديل ✓':'تمت الإضافة ✓','success');
-    closeItemModal(); await loadItems(); await loadStats();
-  } catch(e) { toast(e.message,'error'); }
+    closeItemModal();
+    await loadItems(); await loadStats();
+  } catch(e) { toast(esc(e.message),'error'); }
 }
 
 async function deleteItem(id) {
-  try { await apiFetch(`/items/${id}`,{method:'DELETE'}); toast('تم الحذف ✓','success'); closeConfirm(); await loadItems(); await loadStats(); }
-  catch(e) { toast(e.message,'error'); }
+  try {
+    await apiFetch(`/items/${id}`,{method:'DELETE'});
+    toast('تم الحذف ✓','success');
+    closeConfirm();
+    await loadItems(); await loadStats();
+  } catch(e) { toast(esc(e.message),'error'); }
 }
 
 // ============================================================
-//  IMAGE UPLOAD
+//  DRAG & DROP — reorder rows
 // ============================================================
+let dragSrcId = null;
+
+function setupDragDrop() {
+  const rows = document.querySelectorAll('#itemsTbody tr[draggable]');
+  rows.forEach(row => {
+    row.addEventListener('dragstart', e => {
+      dragSrcId = row.dataset.id;
+      row.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      document.querySelectorAll('#itemsTbody tr').forEach(r => r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('#itemsTbody tr').forEach(r => r.classList.remove('drag-over'));
+      if (row.dataset.id !== dragSrcId) row.classList.add('drag-over');
+    });
+    row.addEventListener('drop', async e => {
+      e.preventDefault();
+      const targetId = row.dataset.id;
+      if (!dragSrcId || dragSrcId === targetId) return;
+      await reorderItems(dragSrcId, targetId);
+    });
+  });
+}
+
+async function reorderItems(srcId, targetId) {
+  const rows = [...document.querySelectorAll('#itemsTbody tr[data-id]')];
+  const orderedIds = rows.map(r => r.dataset.id);
+
+  const srcIdx    = orderedIds.indexOf(srcId);
+  const targetIdx = orderedIds.indexOf(targetId);
+  if (srcIdx === -1 || targetIdx === -1) return;
+
+  orderedIds.splice(srcIdx, 1);
+  orderedIds.splice(targetIdx, 0, srcId);
+
+  // تحديث الترتيب في الذاكرة
+  const updates = orderedIds.map((id, idx) => ({ id, order: idx }));
+  updates.forEach(u => {
+    const item = allItems.find(i => i._id === u.id);
+    if (item) item.order = u.order;
+  });
+
+  // إعادة الرسم فوراً
+  if (activeCatKey) {
+    renderItems(allItems.filter(i => i.category === activeCatKey));
+  }
+
+  // حفظ الترتيب بطلب واحد بدل عدة طلبات
+  try {
+    await apiFetch('/items/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: updates }),
+    });
+    toast('تم حفظ الترتيب ✓', 'success');
+  } catch (e) {
+    toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
+    await loadItems();
+  }
+}
+
+
+// ============================================================
+//  IMAGE UPLOAD — compress to WebP before upload
+// ============================================================
+async function compressToWebP(file, maxW=900, quality=0.82) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale  = Math.min(1, maxW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        if (!blob) { reject(new Error('فشل ضغط الصورة')); return; }
+        resolve(new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' }));
+      }, 'image/webp', quality);
+    };
+    img.onerror = () => reject(new Error('تعذّر قراءة الصورة'));
+    img.src = url;
+  });
+}
+
 async function handleUpload(input) {
-  const file = input.files[0]; if (!file) return;
+  const rawFile = input.files[0];
+  if (!rawFile) return;
+
+  // Validate type
+  if (!rawFile.type.startsWith('image/')) { toast('الملف يجب أن يكون صورة','error'); return; }
+  // Validate size (5MB)
+  if (rawFile.size > 5 * 1024 * 1024) { toast('حجم الصورة يجب أن لا يتجاوز 5MB','error'); return; }
+
   document.getElementById('uploadPh').style.display    = 'none';
   document.getElementById('uploadPrev').style.display  = 'none';
   document.getElementById('uploadProg').style.display  = 'flex';
   document.getElementById('uploadResult').style.display = 'none';
-  const fd = new FormData(); fd.append('image', file);
+  document.getElementById('uploadStatusText').textContent = '⏳ جاري ضغط الصورة...';
+
   try {
-    const r = await fetch(`${API}/upload`,{method:'POST',headers:{Authorization:`Bearer ${TOKEN}`},body:fd});
+    // Step 1: Compress on client side
+    const webpFile = await compressToWebP(rawFile);
+    const origKB   = Math.round(rawFile.size / 1024);
+    const compKB   = Math.round(webpFile.size / 1024);
+
+    document.getElementById('uploadStatusText').textContent = '⬆️ جاري الرفع...';
+
+    // Step 2: Upload
+    const fd = new FormData();
+    fd.append('image', webpFile);
+
+    const r    = await fetch(`${API}/upload`, { method:'POST', headers:{ Authorization:`Bearer ${TOKEN}` }, body:fd });
     const data = await r.json();
-    if (!r.ok) throw new Error(data.error||'فشل الرفع');
+    if (!r.ok) throw new Error(data.error || 'فشل الرفع');
+
     document.getElementById('fi-image').value  = data.url;
     document.getElementById('fi-fileId').value = data.fileId;
     setPreview(data.url);
+
     const res = document.getElementById('uploadResult');
     res.style.display='block'; res.style.color='var(--success)';
-    res.textContent='✅ تم رفع الصورة بنجاح';
+    res.textContent = `✅ تم الرفع — قبل: ${origKB}KB → بعد: ${compKB}KB (WebP)`;
     toast('تم رفع الصورة ✓','success');
   } catch(e) {
     document.getElementById('uploadProg').style.display = 'none';
     document.getElementById('uploadPh').style.display   = 'flex';
     const res = document.getElementById('uploadResult');
     res.style.display='block'; res.style.color='var(--danger)';
-    res.textContent='❌ '+e.message;
-    toast('فشل رفع الصورة: '+e.message,'error');
+    res.textContent = '❌ ' + esc(e.message);
+    toast('فشل رفع الصورة: '+esc(e.message),'error');
   }
 }
 
@@ -938,11 +1115,12 @@ function setPreview(url) {
   document.getElementById('uploadProg').style.display = 'none';
   if (url) {
     const prev = document.getElementById('uploadPrev');
-    prev.src=url; prev.style.display='block';
+    prev.src = url; prev.style.display = 'block';
     document.getElementById('uploadPh').style.display = 'none';
     document.getElementById('fi-image').value = url;
     const res = document.getElementById('uploadResult');
-    res.style.display='block'; res.style.color='var(--muted)'; res.textContent='🖼️ صورة محفوظة';
+    res.style.display='block'; res.style.color='var(--muted)';
+    res.textContent = '🖼️ صورة محفوظة';
   } else resetUpload();
 }
 
@@ -956,16 +1134,17 @@ function resetUpload() {
   document.getElementById('fi-fileId').value = '';
 }
 
-function setupDragDrop() {
+function setupImageDrop() {
   const area = document.getElementById('uploadArea');
   area.addEventListener('dragover', e=>{e.preventDefault();area.classList.add('drag');});
   area.addEventListener('dragleave', ()=>area.classList.remove('drag'));
   area.addEventListener('drop', e=>{
     e.preventDefault(); area.classList.remove('drag');
-    const file=e.dataTransfer.files[0];
-    if(file?.type.startsWith('image/')){
-      const dt=new DataTransfer(); dt.items.add(file);
-      const inp=document.getElementById('fi-file'); inp.files=dt.files; handleUpload(inp);
+    const file = e.dataTransfer.files[0];
+    if (file?.type.startsWith('image/')){
+      const dt = new DataTransfer(); dt.items.add(file);
+      const inp = document.getElementById('fi-file');
+      inp.files = dt.files; handleUpload(inp);
     }
   });
 }
@@ -993,7 +1172,13 @@ function toast(msg, type='info') {
   const box = document.getElementById('toastBox');
   const t = document.createElement('div');
   t.className = `toast ${type}`;
-  t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':'ℹ️'}</span> ${msg}`;
+  // Use textContent for the message to prevent XSS
+  const icon = document.createElement('span');
+  icon.textContent = type==='success'?'✅':type==='error'?'❌':'ℹ️';
+  const text = document.createElement('span');
+  text.textContent = msg;
+  t.appendChild(icon);
+  t.appendChild(text);
   box.appendChild(t);
   setTimeout(()=>t.remove(), 3200);
 }

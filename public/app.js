@@ -2,8 +2,15 @@
 //  app.js — Aroma Cafe | يقرأ البيانات من API (MongoDB)
 // ============================================================
 
-// 'http://localhost:3001/api/menu'
-const API_URL = 'https://aroma-cafe-production.up.railway.app/api/menu'; // ← رابط الـ API
+const API_URL = 'https://aroma-cafe-production.up.railway.app/api/menu';
+
+// ---- XSS Protection ----
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(String(str)));
+  return d.innerHTML;
+}
 
 // ---- تحميل البيانات من الـ API ----
 async function loadMenu() {
@@ -14,7 +21,6 @@ async function loadMenu() {
     buildPage(data);
   } catch (error) {
     console.warn('⚠️ الخادم غير متاح، جاري تحميل menu.json كبديل...', error);
-    // Fallback to menu.json if server is down
     try {
       const fallback = await fetch('menu.json');
       if (!fallback.ok) throw new Error('menu.json غير موجود');
@@ -29,33 +35,36 @@ async function loadMenu() {
 // ---- بناء الصفحة كاملةً ----
 function buildPage(data) {
   const { cafe, categories, items } = data;
+  // استخدم categoriesArr (array مرتبة) إذا موجودة، وإلا ارجع للـ object
+  const catsArr = data.categoriesArr
+    ? data.categoriesArr
+    : Object.keys(categories).map(k => ({ key: k, ...categories[k] }));
 
   document.querySelector('.hero-title').textContent = cafe.name;
 
-  buildTabs(categories);
+  buildTabs(catsArr);
 
-  Object.keys(categories).forEach(catKey => {
-    const cat      = categories[catKey];
-    const catItems = items.filter(item => item.category === catKey);
-    buildSection(catKey, cat, catItems);
+  catsArr.forEach(cat => {
+    const catItems = items
+      .filter(item => item.category === cat.key)
+      .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
+    buildSection(cat.key, cat, catItems);
   });
 
-  const firstKey = Object.keys(categories)[0];
-  activateTab(firstKey);
+  if (catsArr.length > 0) activateTab(catsArr[0].key);
 }
 
 // ---- بناء أزرار التابات ----
-function buildTabs(categories) {
+function buildTabs(catsArr) {
   const tabsEl = document.getElementById('tabs');
   tabsEl.innerHTML = '';
 
-  Object.keys(categories).forEach((key, index) => {
-    const cat = categories[key];
+  catsArr.forEach((cat, index) => {
     const btn = document.createElement('button');
     btn.className   = 'tab-btn' + (index === 0 ? ' active' : '');
-    btn.dataset.tab = key;
-    btn.innerHTML   = ` ${cat.label}${cat.icon}`;
-    btn.addEventListener('click', () => activateTab(key));
+    btn.dataset.tab = cat.key;
+    btn.textContent = ` ${cat.label}${cat.icon}`;
+    btn.addEventListener('click', () => activateTab(cat.key));
     tabsEl.appendChild(btn);
   });
 }
@@ -68,47 +77,81 @@ function buildSection(catKey, cat, items) {
   section.id        = catKey;
   section.className = 'tab-content';
 
-  section.innerHTML = `
-    <div class="section-header">
-      <h2 class="section-title">${cat.label} ${cat.icon}</h2>
-      <p class="section-subtitle">${cat.subtitle}</p>
-    </div>
-    <div class="grid-icon"></div>
-    <div class="menu-grid" id="grid-${catKey}"></div>
-  `;
+  // Use textContent for user data, not innerHTML
+  const header = document.createElement('div');
+  header.className = 'section-header';
 
+  const title = document.createElement('h2');
+  title.className = 'section-title';
+  title.textContent = `${cat.label} ${cat.icon}`;
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'section-subtitle';
+  subtitle.textContent = cat.subtitle;
+
+  const gridIcon = document.createElement('div');
+  gridIcon.className = 'grid-icon';
+
+  const grid = document.createElement('div');
+  grid.className = 'menu-grid';
+  grid.id = `grid-${catKey}`;
+
+  header.appendChild(title);
+  header.appendChild(subtitle);
+  section.appendChild(header);
+  section.appendChild(gridIcon);
+  section.appendChild(grid);
   wrapper.appendChild(section);
 
-  const grid = section.querySelector(`#grid-${catKey}`);
   items.forEach((item, index) => {
     grid.appendChild(buildCard(item, index));
   });
 }
 
-// ---- بناء كرت منتج واحد ----
+// ---- بناء كرت منتج واحد — XSS safe ----
 function buildCard(item, index) {
   const card = document.createElement('div');
   card.className = 'menu-card';
   card.style.animationDelay = `${index * 0.06}s`;
 
-  card.innerHTML = `
-    <div class="card-image-wrap">
-      <img
-        class="card-image"
-        src="${item.image}"
-        alt="${item.name}"
-        loading="lazy"
-        onerror="this.src='images/placeholder.jpg'; this.onerror=null;"
-      />
-    </div>
-    <div class="card-body">
-      <div class="card-top">
-        <span class="card-name">${item.name}</span>
-        <span class="card-price">${item.price} د.ع</span>
-      </div>
-      <p class="card-desc">${item.description}</p>
-    </div>
-  `;
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'card-image-wrap';
+
+  const img = document.createElement('img');
+  img.className = 'card-image';
+  img.loading   = 'lazy';
+  // Validate image URL — only allow http/https
+  const safeImgSrc = /^https?:\/\//i.test(item.image || '') ? item.image : 'images/placeholder.jpg';
+  img.src = safeImgSrc;
+  img.alt = item.name;
+  img.onerror = function() { this.src = 'images/placeholder.jpg'; this.onerror = null; };
+
+  imageWrap.appendChild(img);
+
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  const top = document.createElement('div');
+  top.className = 'card-top';
+
+  const name = document.createElement('span');
+  name.className   = 'card-name';
+  name.textContent = item.name;
+
+  const price = document.createElement('span');
+  price.className   = 'card-price';
+  price.textContent = `${item.price} د.ع`;
+
+  const desc = document.createElement('p');
+  desc.className   = 'card-desc';
+  desc.textContent = item.description;
+
+  top.appendChild(name);
+  top.appendChild(price);
+  body.appendChild(top);
+  body.appendChild(desc);
+  card.appendChild(imageWrap);
+  card.appendChild(body);
 
   return card;
 }
@@ -125,13 +168,12 @@ function activateTab(tabKey) {
 
 // ---- رسالة خطأ ----
 function showError() {
-  document.getElementById('sections').innerHTML = `
-    <div style="text-align:center; padding:60px 20px; color:#b06ac8; font-size:1.1rem;">
-      ⚠️ تعذّر تحميل القائمة، تأكد من تشغيل الخادم أو وجود ملف <strong>menu.json</strong>.
-    </div>
-  `;
+  const sections = document.getElementById('sections');
+  sections.textContent = ''; // clear safely
+  const msg = document.createElement('div');
+  msg.style.cssText = 'text-align:center;padding:60px 20px;color:#b06ac8;font-size:1.1rem;';
+  msg.textContent = '⚠️ تعذّر تحميل القائمة، تأكد من تشغيل الخادم.';
+  sections.appendChild(msg);
 }
 
 document.addEventListener('DOMContentLoaded', loadMenu);
-
-
