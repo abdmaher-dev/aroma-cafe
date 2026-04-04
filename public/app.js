@@ -1,6 +1,3 @@
-// ============================================================
-//  app.js — Aroma Cafe | يقرأ البيانات من API (MongoDB)
-// ============================================================
 
 const API_URL = 'https://aroma-cafe-production.up.railway.app/api/menu';
 
@@ -12,7 +9,7 @@ function esc(str) {
   return d.innerHTML;
 }
 
-// ---- تحميل البيانات من الـ API ----
+
 async function loadMenu() {
   try {
     const response = await fetch(API_URL);
