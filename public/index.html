@@ -6,7 +6,6 @@
   <title>Aroma Cafe - القائمة</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="/public/assests/coffee_logo.webp">
-
 </head>
 <body>
 
@@ -19,25 +18,39 @@
     <p class="hero-subtitle font">Where Magic Happens</p>
   </header>
 
-  <!-- ===== Tabs (تُبنى بواسطة app.js) ===== -->
+  <!-- ===== Tabs ===== -->
   <div class="tabs-container">
-    <div class="tabs" id="tabs">
-      <!-- يتم إنشاؤها تلقائياً من menu.json -->
-    </div>
+    <div class="tabs" id="tabs"></div>
   </div>
 
-  <!-- ===== Sections (تُبنى بواسطة app.js) ===== -->
-  <div id="sections">
-    <!-- يتم إنشاؤها تلقائياً من menu.json -->
-  </div>
+  <!-- ===== Sections ===== -->
+  <div id="sections"></div>
 
   <!-- ===== Footer ===== -->
   <footer>
     <p>✨ مقهى الأحلام، حيث تتحقق الأحلام &copy; 2026</p>
   </footer>
 
-  <!-- app.js يقرأ menu.json ويبني كل شيء -->
-  <script src="app.js"></script>
+  <!-- ===== Item Detail Modal ===== -->
+  <div class="item-modal-overlay" id="itemModalOverlay" onclick="closeItemModal(event)">
+    <div class="item-modal" id="itemModal">
+      <button class="item-modal-close" onclick="closeItemModalDirect()">✕</button>
+      <div class="item-modal-img-wrap">
+        <img class="item-modal-img" id="modalImg" src="" alt="" />
+        <button class="item-modal-fav-btn" id="modalFavBtn" onclick="toggleFavFromModal()" title="أضف للمفضلة">
+          <span id="modalFavIcon">☆</span>
+        </button>
+      </div>
+      <div class="item-modal-body">
+        <div class="item-modal-top">
+          <h2 class="item-modal-name" id="modalName"></h2>
+          <span class="item-modal-price" id="modalPrice"></span>
+        </div>
+        <p class="item-modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
 
+  <script src="app.js"></script>
 </body>
 </html>
