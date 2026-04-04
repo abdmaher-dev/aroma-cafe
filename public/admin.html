@@ -677,8 +677,8 @@ async function loadCats() {
     opt.textContent = `${c.icon||'📂'} ${c.label}`;
     sel.appendChild(opt);
   });
-  renderCatPicker();
   renderCatCards();
+  renderCatPicker();
 }
 
 function renderCatPicker() {
