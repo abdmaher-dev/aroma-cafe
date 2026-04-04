@@ -718,7 +718,9 @@ function renderCatCards() {
     tb.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="ei">📂</div><p>لا توجد أقسام</p></div></td></tr>';
     return;
   }
-  tb.innerHTML = entries.map(([k, c]) => `
+  tb.innerHTML = entries.map(([k, c]) =>
+  console.log(c)
+   `
     <tr draggable="true" data-key="${esc(k)}">
       <td><span class="drag-handle" title="اسحب لتغيير الترتيب">⠿</span></td>
       <td style="font-size:1.4rem;text-align:center">${esc(c.icon || '📂')}</td>
