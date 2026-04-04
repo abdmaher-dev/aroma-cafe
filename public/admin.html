@@ -623,6 +623,8 @@ async function initAdmin() {
   await loadCats();
   await loadItems();
   await loadStats();
+  renderCatCards();
+  renderCatPicker();
   setupImageDrop();
 }
 
@@ -719,7 +721,6 @@ function renderCatCards() {
     return;
   }
   tb.innerHTML = entries.map(([k, c]) =>
-  console.log(c)
    `
     <tr draggable="true" data-key="${esc(k)}">
       <td><span class="drag-handle" title="اسحب لتغيير الترتيب">⠿</span></td>
@@ -727,7 +728,7 @@ function renderCatCards() {
       <td><strong>${esc(c.label)}</strong></td>
       <td class="tbl-desc-col desc-cell">${esc(c.subtitle || '—')}</td>
       <td><span class="cat-badge">${esc(k)}</span></td>
-      <td style="color:var(--rose);font-weight:700">${catCounts[c] || 0}</td>
+      <td style="color:var(--rose);font-weight:700">${catCounts[k] || 0}</td>
       <td><div class="act-cell">
         <button class="btn btn-ghost btn-sm" onclick="openCatModal('${esc(k)}')">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="confirmDel('${esc(c.label).replace(/'/g,"\\'")}',()=>deleteCat('${esc(k)}'))">🗑️</button>
