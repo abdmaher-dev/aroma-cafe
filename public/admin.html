@@ -679,8 +679,6 @@ async function loadCats() {
   });
   renderCatPicker();
   renderCatCards();
-  // ✅ التعديل الأول: تحديث العداد بعد تحميل الأقسام
-  await loadStats(); 
 }
 
 function renderCatPicker() {
@@ -735,7 +733,6 @@ function renderCatCards() {
     </tr>
   `).join('');
   setupCatDragDrop();
-  renderCatCards();
 }
 
 // ============================================================
@@ -775,7 +772,6 @@ function setupCatDragDrop() {
     }
   });
 }
-
 async function reorderCats(srcKey, targetKey) {
   const rows = [...document.querySelectorAll('#catDragTbody tr[data-key]')];
   const orderedKeys = rows.map(r => r.dataset.key);
@@ -807,14 +803,11 @@ async function reorderCats(srcKey, targetKey) {
       body: JSON.stringify({ order: orderPayload }),
     });
     toast('تم حفظ ترتيب الأقسام ✓', 'success');
-    // ✅ التعديل الثاني: تحديث العداد بعد إعادة الترتيب
-    await loadStats(); 
   } catch (e) {
     toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
     await loadCats();
   }
 }
-
 
 function openCatModal(key=null) {
   editCatKey = key;
@@ -859,9 +852,7 @@ async function deleteCat(key) {
     await apiFetch(`/categories/${key}`,{method:'DELETE'});
     toast('تم حذف القسم ✓','success');
     closeConfirm();
-    await loadCats(); 
-    await loadStats(); 
-    await loadItems();
+    await loadCats(); await loadStats(); await loadItems();
   } catch(e) { toast(esc(e.message),'error'); }
 }
 
