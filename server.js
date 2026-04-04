@@ -363,22 +363,17 @@ app.put('/api/items/:id', authMiddleware, async (req, res) => {
     if (req.body.order       !== undefined) update.order       = Number(req.body.order);
 
     // Handle image change — delete old from ImageKit
-    const newFileId = req.body.fileId;
+    if (req.body.image !== undefined) {
+      update.image = req.body.image;
+      const newFileId = req.body.fileId;
+      if (newFileId && oldItem.fileId && newFileId !== oldItem.fileId) {
+        await deleteFromImageKit(oldItem.fileId);
+      }
+      if (newFileId !== undefined) update.fileId = newFileId;
+    }
 
-// إذا تغيرت الصورة نحذف القديمة
-if (newFileId && oldItem.fileId && newFileId !== oldItem.fileId) {
-  await deleteFromImageKit(oldItem.fileId);
-}
-
-// تحديث الصورة إذا انرسلت
-if (req.body.image !== undefined) {
-  update.image = req.body.image;
-}
-
-// تحديث fileId إذا انرسل
-if (newFileId !== undefined) {
-  update.fileId = newFileId;
-}
+    const updated = await Item.findByIdAndUpdate(req.params.id, update, { new: true });
+    res.json(updated);
   } catch (e) { res.status(400).json({ error: e.message }); }
 });
 
