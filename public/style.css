@@ -399,3 +399,9 @@ footer {
 .font {
   font-family: 'Dancing Script';
 }
+
+/* للكمبيوتر */
+.desktop-only-cat { display: inline-block; cursor: grab; }
+.mobile-arrows-cat { display: none; }
+
+/* للموبايل */

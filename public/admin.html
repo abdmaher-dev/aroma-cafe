@@ -740,33 +740,38 @@ function renderCatCards() {
 // ============================================================
 let dragSrcCatKey = null;
 
+let sortableCatsInstance = null;
+
 function setupCatDragDrop() {
-  const rows = document.querySelectorAll('#catDragTbody tr[draggable]');
-  rows.forEach(row => {
-    row.addEventListener('dragstart', e => {
-      dragSrcCatKey = row.dataset.key;
-      row.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    row.addEventListener('dragend', () => {
-      row.classList.remove('dragging');
-      document.querySelectorAll('#catDragTbody tr').forEach(r => r.classList.remove('drag-over'));
-    });
-    row.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      document.querySelectorAll('#catDragTbody tr').forEach(r => r.classList.remove('drag-over'));
-      if (row.dataset.key !== dragSrcCatKey) row.classList.add('drag-over');
-    });
-    row.addEventListener('drop', async e => {
-      e.preventDefault();
-      const targetKey = row.dataset.key;
-      if (!dragSrcCatKey || dragSrcCatKey === targetKey) return;
-      await reorderCats(dragSrcCatKey, targetKey);
-    });
+  const tbody = document.getElementById('catDragTbody');
+  if (sortableCatsInstance) sortableCatsInstance.destroy();
+  
+  sortableCatsInstance = new Sortable(tbody, {
+    animation: 300,
+    handle: '.drag-handle',
+    touchStartThreshold: 2,
+    onEnd: async function() {
+      const rows = [...document.querySelectorAll('#catDragTbody tr[data-key]')];
+      const updates = rows.map((row, idx) => ({ 
+        key: row.dataset.key, 
+        order: idx 
+      }));
+      
+      try {
+        await apiFetch('/categories/reorder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order: updates }),
+        });
+        toast('تم حفظ ترتيب الأقسام ✓', 'success');
+        await loadCats();
+      } catch (e) {
+        toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
+        await loadCats();
+      }
+    }
   });
 }
-
 async function reorderCats(srcKey, targetKey) {
   const rows = [...document.querySelectorAll('#catDragTbody tr[data-key]')];
   const orderedKeys = rows.map(r => r.dataset.key);
@@ -972,34 +977,41 @@ async function deleteItem(id) {
 // ============================================================
 let dragSrcId = null;
 
+let sortableInstance = null;
+
 function setupDragDrop() {
-  const rows = document.querySelectorAll('#itemsTbody tr[draggable]');
-  rows.forEach(row => {
-    row.addEventListener('dragstart', e => {
-      dragSrcId = row.dataset.id;
-      row.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    row.addEventListener('dragend', () => {
-      row.classList.remove('dragging');
-      document.querySelectorAll('#itemsTbody tr').forEach(r => r.classList.remove('drag-over'));
-    });
-    row.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      document.querySelectorAll('#itemsTbody tr').forEach(r => r.classList.remove('drag-over'));
-      if (row.dataset.id !== dragSrcId) row.classList.add('drag-over');
-    });
-    row.addEventListener('drop', async e => {
-      e.preventDefault();
-      const targetId = row.dataset.id;
-      if (!dragSrcId || dragSrcId === targetId) return;
-      await reorderItems(dragSrcId, targetId);
-    });
+  const tbody = document.getElementById('itemsTbody');
+  if (sortableInstance) sortableInstance.destroy();
+  
+  sortableInstance = new Sortable(tbody, {
+    animation: 300,
+    handle: '.drag-handle',
+    touchStartThreshold: 2,
+    onEnd: async function() {
+      const rows = [...document.querySelectorAll('#itemsTbody tr[data-id]')];
+      const updates = rows.map((row, idx) => ({ 
+        id: row.dataset.id, 
+        order: idx 
+      }));
+      
+      try {
+        await apiFetch('/items/reorder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order: updates }),
+        });
+        toast('تم حفظ الترتيب ✓', 'success');
+        await loadItems();
+      } catch (e) {
+        toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
+        await loadItems();
+      }
+    }
   });
 }
 
 async function reorderItems(srcId, targetId) {
+  // Build sorted list from current display order
   const rows = [...document.querySelectorAll('#itemsTbody tr[data-id]')];
   const orderedIds = rows.map(r => r.dataset.id);
 
@@ -1007,35 +1019,42 @@ async function reorderItems(srcId, targetId) {
   const targetIdx = orderedIds.indexOf(targetId);
   if (srcIdx === -1 || targetIdx === -1) return;
 
+  // Reorder array
   orderedIds.splice(srcIdx, 1);
   orderedIds.splice(targetIdx, 0, srcId);
 
-  // تحديث الترتيب في الذاكرة
+  // Assign new order values & update allItems in memory
   const updates = orderedIds.map((id, idx) => ({ id, order: idx }));
   updates.forEach(u => {
     const item = allItems.find(i => i._id === u.id);
     if (item) item.order = u.order;
   });
 
-  // إعادة الرسم فوراً
+  // Re-render immediately using the already-updated allItems
   if (activeCatKey) {
-    renderItems(allItems.filter(i => i.category === activeCatKey));
+    const catItems = allItems
+      .filter(i => i.category === activeCatKey)
+      .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
+    renderItems(catItems);
   }
 
-  // حفظ الترتيب بطلب واحد بدل عدة طلبات
+  // Save to server
   try {
-    await apiFetch('/items/reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order: updates }),
-    });
-    toast('تم حفظ الترتيب ✓', 'success');
-  } catch (e) {
-    toast('تعذّر حفظ الترتيب: ' + esc(e.message), 'error');
+    await Promise.all(
+      updates.map(u =>
+        apiFetch(`/items/${u.id}`, {
+          method: 'PUT',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ order: u.order }),
+        })
+      )
+    );
+    toast('تم حفظ الترتيب ✓','success');
+  } catch(e) {
+    toast('تعذّر حفظ الترتيب: '+esc(e.message),'error');
     await loadItems();
   }
 }
-
 
 // ============================================================
 //  IMAGE UPLOAD — compress to WebP before upload
@@ -1183,5 +1202,6 @@ function toast(msg, type='info') {
   setTimeout(()=>t.remove(), 3200);
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </body>
 </html>
