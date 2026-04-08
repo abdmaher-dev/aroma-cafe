@@ -432,6 +432,17 @@ app.get('/api/stats', authMiddleware, async (req, res) => {
 });
 
 
+// Heartbeat to keep MongoDB active
+setInterval(async () => {
+  try {
+    await mongoose.connection.db.admin().ping();
+    console.log("DB ping sent");
+  } catch (err) {
+    console.log("Ping failed:", err.message);
+  }
+}, 15 * 60 * 1000); // كل 15 دقيقة
+
+
 
 // ============================================================
 //  Start
